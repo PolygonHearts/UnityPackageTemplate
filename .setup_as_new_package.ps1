@@ -53,22 +53,23 @@ Write-Host "--- Do you wish to continue (y/n)? ---" -ForegroundColor Yellow -Bac
 $confirmation = Read-Host  
 if ($confirmation -ne 'y' -and $confirmation -ne 'Y') {
     Write-Host "Cancled Run" -ForegroundColor Yellow -BackgroundColor DarkRed
-    return
+    return 
 }
 
 Write-Host "--- Renaming Package Folder ---" -ForegroundColor Cyan -BackgroundColor DarkBlue
 
 $rootFolder = Get-Item -Path "$PSScriptRoot/Assets/Packages/com.$companyNameReplaceTag.$packageNameReplaceTag"
 
-$newRootPath = $rootFolder.Name -replace $companyNameReplaceTag,$companyName -replace $packageNameReplaceTag,$packageName
-#$rootFolder = $rootFolder.FullName -replace $companyNameReplaceTag,$companyName -replace $packageNameReplaceTag,$packageName
-
+$newRootPath = $rootFolder.Name -replace $companyNameReplaceTag,$companyNameLower -replace $packageNameReplaceTag,$packageNameLower
 
 $oldPathRelToScript = ($rootFolder -replace $escapedRootPath, "")
 $newPathRelToScript = ($newRootPath -replace $escapedRootPath, "")
 
 Write-Host " - Renaming $oldPathRelToScript`n    ->  $newPathRelToScript" 
-#Rename-Item -Path $rootFolder -NewName $newRootPath
+Rename-Item -Path $rootFolder -NewName $newRootPath
+Rename-Item -Path "$rootFolder.meta" -NewName "$newRootPath.meta"
+
+$rootFolder = $rootFolder.FullName -replace $companyNameReplaceTag,$companyNameLower -replace $packageNameReplaceTag,$packageNameLower
 
 Write-Host "--- Renaming Files ---" -ForegroundColor Cyan -BackgroundColor DarkBlue
 
@@ -83,7 +84,7 @@ foreach($file in $filesNeedRenaming)
     $newPathRelToScript = ($newFilePath -replace "$escapedRootPath\\", "")
 
     Write-Host " - Renaming $oldPathRelToScript`n    ->  $newPathRelToScript" 
-    #Rename-Item -Path $file.FullName -NewName $newFilePath
+    Rename-Item -Path $file.FullName -NewName $newFilePath
 }
 
 
@@ -94,10 +95,10 @@ foreach ($file in $filesNeedTextReplace)
 {
     $fileContents = Get-Content -Path $file.FullName
     if(`
+        ($fileContents -Match $companyNameReplaceTagLowerCase) -or`
+        ($fileContents -Match $packageNameReplaceTagLowerCase) -or`
         ($fileContents -Match $companyNameReplaceTag) -or`
         ($fileContents -Match $packageNameReplaceTag) -or`
-        ($fileContents -Match $companyNameReplaceTagLowerCase) -or`
-        ($fileContents -Match $packageNameReplaceTagLowerCase) -or#
         ($fileContents -Match $packageDisplayNameReplaceTag) -or
         ($fileContents -Match $packageDescReplaceTag) -or`
         ($fileContents -Match $authorNameReplaceTag))
@@ -106,15 +107,15 @@ foreach ($file in $filesNeedTextReplace)
         Write-Host " - Replacing Text in $oldPathRelToScript"
 
         $replacedTest =  $fileContents`
-        -replace $companyNameReplaceTag, $companyName`
-        -replace $packageNameReplaceTag, $packageName`
         -replace $companyNameReplaceTagLowerCase, $companyNameLower`
         -replace $packageNameReplaceTagLowerCase, $packageNameLower`
+        -replace $companyNameReplaceTag, $companyName`
+        -replace $packageNameReplaceTag, $packageName`
         -replace $packageDisplayNameReplaceTag, $packageDisplayName`
         -replace $packageDescReplaceTag, $packageDescription`
         -replace $authorNameReplaceTag, $authorName
 
-        #Set-Content -Path $destination_file -Value $replacedTest
+        Set-Content -Path $file.FullName -Value $replacedTest
     }
 }
 
@@ -127,14 +128,14 @@ $newReadmeContent = @"
 $packageDescription
 "@
 
-Set-Content -Path "$PSScriptRoot\README.md" -Value $replacedTest
+Set-Content -Path "$PSScriptRoot\README.md" -Value $newReadmeContent
 
 Write-Host "--- Enabling Github Actions ---" -ForegroundColor Cyan -BackgroundColor DarkBlue
-#Rename-Item -Path "$PSScriptRoot\.github\workflows_TO_ENABLE" -NewName "workflows"
+Rename-Item -Path "$PSScriptRoot\.github\workflows_TO_ENABLE" -NewName "workflows"
 
 
 Write-Host "--- Removing Setup Script ---" -ForegroundColor Cyan -BackgroundColor DarkBlue
-#Remove-Item $PSCommandPath -Force 
+Remove-Item $PSCommandPath -Force 
 
 
 Write-Host "--- Done! ---" -ForegroundColor Cyan -BackgroundColor DarkBlue
