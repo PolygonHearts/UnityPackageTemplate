@@ -1,0 +1,17 @@
+{
+    "name": "REPLACE_ME_COMPANY_NAME.REPLACE_ME_PACKAGE_NAME.Tests",
+    "rootNamespace": "REPLACE_ME_COMPANY_NAME.REPLACE_ME_PACKAGE_NAME.Tests",
+    "references": [
+        "REPLACE_ME_COMPANY_NAME.REPLACE_ME_PACKAGE_NAME"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}

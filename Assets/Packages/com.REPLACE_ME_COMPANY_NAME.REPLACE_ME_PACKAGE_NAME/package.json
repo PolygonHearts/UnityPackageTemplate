@@ -1,0 +1,25 @@
+{
+  "name": "com.REPLACE_ME_COMPANY_NAME_LOWER.REPLACE_ME_PACKAGE_NAME_LOWER",
+  "version": "0.0.1",
+  "displayName": "REPLACE_ME_PACKAGE_DISPLAY_NAME",
+  "description": "REPLACE_ME_PACKAGE_DESC",
+  "unity": "2022.1",
+  "type": "library",
+  "author": {
+    "name": "REPLACE_ME_AUTHOR_NAME",
+  },
+  "dependencies": { },
+  "keywords": [
+    "unity"
+  ],
+  "samples": [
+    {
+      "displayName": "Sample 1",
+      "path": "Samples~/Sample 1"
+    },
+    {
+      "displayName": "Sample 2",
+      "path": "Samples~/Sample 2"
+    }
+  ]
+}

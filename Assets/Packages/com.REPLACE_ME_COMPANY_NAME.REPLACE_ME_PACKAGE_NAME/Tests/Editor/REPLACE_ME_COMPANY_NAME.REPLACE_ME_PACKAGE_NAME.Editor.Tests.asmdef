@@ -1,0 +1,20 @@
+{
+    "name": "REPLACE_ME_COMPANY_NAME.REPLACE_ME_PACKAGE_NAME.Editor.Tests",
+    "rootNamespace": "REPLACE_ME_COMPANY_NAME.REPLACE_ME_PACKAGE_NAME.Editor.Tests",
+    "references": [
+        "REPLACE_ME_COMPANY_NAME.REPLACE_ME_PACKAGE_NAME",
+        "REPLACE_ME_COMPANY_NAME.REPLACE_ME_PACKAGE_NAME.Editor"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}

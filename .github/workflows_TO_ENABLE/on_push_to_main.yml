@@ -1,0 +1,44 @@
+name: Update and Publish UPM Branch
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  perform-release:
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v3
+          with:
+            fetch-depth: 0
+
+        - name: Semantic release
+          id: semantic
+          uses: cycjimmy/semantic-release-action@v4
+          with:
+            extra_plugins: |
+              @semantic-release/changelog
+              @semantic-release/git
+            branch: master
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+        - name: Tag release
+          if: steps.semantic.outputs.new_release_published == 'true'
+          run: |
+            git tag $TAG main
+            git push origin --tags
+          env:
+            TAG: upm/v${{ steps.semantic.outputs.new_release_version }}
+
+        - name: Update UPM branch
+          if: steps.semantic.outputs.new_release_published == 'true'
+          uses: hecomi/create-upm-branch-action@main
+          with:
+            git-tag: $TAG
+            pkg-root-dir-path: Assets/Packages/com.PACKAGE_COM_NAME.PACKAGE_NAME
+          env:
+            TAG: upm/v${{ steps.semantic.outputs.new_release_version }}

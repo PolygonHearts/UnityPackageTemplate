@@ -1,0 +1,17 @@
+{
+    "name": "REPLACE_ME_COMPANY_NAME.REPLACE_ME_PACKAGE_NAME.Editor",
+    "rootNamespace": "REPLACE_ME_COMPANY_NAME.REPLACE_ME_PACKAGE_NAME.Editor",
+    "references": [
+        "REPLACE_ME_COMPANY_NAME.REPLACE_ME_PACKAGE_NAME"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}
