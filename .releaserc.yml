@@ -1,19 +1,57 @@
-branches: main
+branches:
+  - main
 tagFormat: v${version}
-plugins:
+debug: true
+plugins: 
 - - '@semantic-release/commit-analyzer'
   - preset: conventionalcommits
-- '@semantic-release/release-notes-generator'
+- - '@semantic-release/release-notes-generator'
+  - preset: conventionalcommits
+    writerOpts:
+      groupBy: "type"
+      commitGroupsSort:
+        - "feat"
+        - "fix"
+        - "perf"
+        - "revert"
+        - "test"
+      commitsSort: "header"
+    presetConfig:
+      types:
+        - type: feat
+          section: "✨ New Features ✨"
+          hidden: false
+        - type: fix
+          section: "🐛 Bug Fixes 🐛"
+          hidden: false
+        - type: perf
+          section: "⚡️ Performance Improvements ⚡️"
+          hidden: false
+        - type: revert
+          section: "⏮️ Reverts ⏮️"
+          hidden: true
+        - type: test
+          section: "✅ Tests ✅"
+          hidden: false
+        - type: build
+          hidden: true
+        - type: ci
+          hidden: true
+        - type: docs 
+          hidden: true
+        - type: chore
+          hidden: true
+        - type: style
+          hidden: true
 - - '@semantic-release/changelog'
   - preset: conventionalcommits
     changelogFile: CHANGELOG.md
 - - '@semantic-release/npm'
-    - npmPublish: false
-      pkgRoot: Assets/Flare.Logging
-      tagFormat: v${version}
+  - npmPublish: false
+    pkgRoot: Assets/Packages/com.REPLACE_ME_COMPANY_NAME.REPLACE_ME_PACKAGE_NAME
+    tagFormat: v${version}
 - - '@semantic-release/git'
   - assets:
-    - Assets/Flare.Logging/package.json
+    - Assets/Packages/com.REPLACE_ME_COMPANY_NAME.REPLACE_ME_PACKAGE_NAME/package.json
     - CHANGELOG.md
     message: "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
-- '@semantic-release/github'

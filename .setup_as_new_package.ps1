@@ -133,6 +133,26 @@ Set-Content -Path "$PSScriptRoot\README.md" -Value $newReadmeContent
 Write-Host "--- Enabling Github Actions ---" -ForegroundColor Cyan -BackgroundColor DarkBlue
 Rename-Item -Path "$PSScriptRoot\.github\workflows_TO_ENABLE" -NewName "workflows"
 
+Write-Host "--- Replace Github Actions Text ---" -ForegroundColor Cyan -BackgroundColor DarkBlue
+
+$githubActionFilesToReplace = @(
+    "$PSScriptRoot\.releaserc.yml",
+    "$PSScriptRoot\.github\workflows\on_push_to_main.yml"
+    )
+
+foreach ($file in $githubActionFilesToReplace)
+{
+    $fileContents = Get-Content -Path $file
+    $oldPathRelToScript = ($file -replace "$escapedRootPath\\", "")
+    Write-Host " - Replacing Text in $oldPathRelToScript"
+
+    $replacedTest =  $fileContents`
+    -replace $companyNameReplaceTag, $companyNameLower`
+    -replace $packageNameReplaceTag, $packageNameLower
+
+    Set-Content -Path $file -Value $replacedTest
+}
+
 
 Write-Host "--- Removing Setup Script ---" -ForegroundColor Cyan -BackgroundColor DarkBlue
 Remove-Item $PSCommandPath -Force 
