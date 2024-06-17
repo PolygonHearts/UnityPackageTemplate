@@ -41,7 +41,7 @@ jobs:
             pkg-root-dir-path: Assets/Packages/com.REPLACE_ME_COMPANY_NAME.REPLACE_ME_PACKAGE_NAME
 
         - name: Create Github Release
-          run: gh release create $TAG --title "$TAG" --notes "${NOTES}"
+          run: gh release create upm@$TAG --title "$TAG" --target "upm@$TAG" --notes "${NOTES}"
           env:
             GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             NOTES: ${{ steps.semantic.outputs.new_release_notes }}
